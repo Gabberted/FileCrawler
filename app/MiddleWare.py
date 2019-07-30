@@ -58,10 +58,13 @@ def CreateTableContent(list):
 
 def getFileExtention(strFileName):
     try:
-        strSplit=strFileName.split(".")
-        #print("Extention found: " + str(strSplit[1]))
+        print("Entering getFileExtention with: " + str(strFileName))
+        strSplit=strFileName.split('.')
+        print(strSplit)
+        print("Extention found: " + str(strSplit[len(strSplit)-1]))
+        return strSplit[1]
     except:
-        print ("Error whil executing getFileExtention")
+        print ("Error while executing getFileExtention")
 
 def doStuff(strPath):
     strHTML= readHTMLFile(strPath)
@@ -91,3 +94,10 @@ def getAllMakeUpDone():
     strStyleSheetHTML= getStyleSheet()
 
     return strFOOTERHTML, strStyleSheetHTML
+
+def getTemplate(strPath):
+    strPath=os.path.dirname(__file__).replace("app","") + strPath
+    strFooterHTML, strStyleSheet =getAllMakeUpDone()
+    print("opening:" + str(strPath))
+    strHTML= readHTMLFile(strPath).replace("%FOOTER%",strFooterHTML).replace("%STYLE%",strStyleSheet)
+    return strHTML

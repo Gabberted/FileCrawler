@@ -4,8 +4,8 @@
 #rootdir ='/home/rakaut/Desktop/TestFolder/'
 #rootdir ='/home/rakaut/smb:/LGNAS/Private/'
 #rootdir ='/media/rakaut/Seagate/Data/Work/Freelans/'
-rootdir ='/mnt/owncloud/'
-
+#rootdir ='/mnt/owncloud/'
+rootdir ='/mnt/owncloud/MultiMedia/Pictures/opslaan/'
 strDbName='file.db'
 
 #cursorObj = con.cursor()
@@ -20,4 +20,5 @@ _WelcomeFile="html/Welcome.html.cms"
 _infoFile="html/info.html.cms"
 _FooterFile="html/footer.html.cms"
 _AdminFile="html/Admin.html.cms"
+_DoneFile="html/done.html.cms"
 _StyleSheet="html/style.css"

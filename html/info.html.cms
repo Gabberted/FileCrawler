@@ -3,7 +3,7 @@
     <title>FileCrawler V1.0</title>
     <meta content="">
     <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
-    <link rel="stylesheet" href="/style.css">
+    %STYLE%
 
   </head>
   <body>
