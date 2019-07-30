@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <title>FileCrawler V1.0</title>
+    <meta content="">
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+    <link rel="stylesheet" href="/style.css">
+
+  </head>
+  <body>
+    <div class="loader">
+      FileCrawler - Information Page</div>
+    </div>
+    <br>
+    <div class="SectionHeader">Summery</div>
+    <hr>
+    <table id="myTable" width="50%" border=0px>
+        <thead>
+          <div class="loader1">
+            <tr>
+                <th id="col" align=left width=25%>Files </th>
+                <th id="col" align=left width=25%>Audio/Video</th>
+                <th id="col" align=left width=25%>Pictures</th>
+                <th id="col" align=left width=25%>Documents</th>
+            </tr>
+          </div>
+          </thead>
+          <tbody>
+              <tr>
+	               <td>
+                     <div class="MainInfo">
+                       Number of Files indexed : %info% <br>
+                       Number of Unique Files: %info2%
+                     </div>
+                 </td>
+                 <td>
+                   <div class="MainInfo">
+                     Number of MP3 files :%MP3% <br>
+                     Number of WAV Files: %WAV% <br>
+                     Number of Flv indexed :%flv% <br>
+                     Number of Avi Files: %avi%
+                   </div>
+                 </td>
+                 <td>
+                   <div class="MainInfo">
+                     Number of BMP files :%BMP% <br>
+                     Number of JPG Files: %JPG% <br>
+                     Number of PNG indexed :%PNG% <br>
+                     Number of TIFF Files: %TIFF%
+                   </div>
+                 </td>
+                 <td>
+                   <div class="MainInfo">
+                     Number of DOC files :%DOC% <br>
+                     Number of DOCX Files: %DOCX% <br>
+                     Number of ODT indexed :%ODT% <br>
+                     Number of TXT Files: %TXT%
+                   </div>
+                 </td>
+              </tr>
+          </tbody>
+      </table>
+      <hr>
+      <br><br><br>
+      <div class="SectionHeader">Projects</div><hr>
+
+    <table  width="65%" border=0px  id="ProjectTable">
+      <thead>
+        <tr>
+          <th id="col" align=left>Python</th>
+          <th id="col" align=left>C#</th>
+          <th id="col" align=left>BAS</th>
+          <th id="col" align=left>.h</th>
+          <th id="col" align=left>.cpp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            %T_PY_L%
+          </td>
+          <td>
+              %T_C_L%
+          </td>
+          <td>
+              %T_BAS_L%
+          </td>
+          <td>
+              %T_h_L%
+          </td>
+          <td>
+              %T_CPP_L%
+          </td>
+        </tr>
+      </tbody>
+      </table>
+    <hr>
+    <div class="overallsum">
+    %summery%
+    </div>
+    <br><br><br>
+    <div class="SectionHeader">File extentions
+    </div><hr>
+    %extentions%
+    <hr>
+
+    <br><br><br>
+    %FOOTER%
+  </body>
+</html>

@@ -1,0 +1,18 @@
+#variables
+
+#rootdir ='/media/rakaut/Seagate/Data/'
+#rootdir ='/media/rakaut/Seagate/Data/Desktop/'
+#rootdir ='/home/rakaut/Desktop/TestFolder/'
+#rootdir ='/home/rakaut/smb:/LGNAS/Private/'
+rootdir ='/media/rakaut/Seagate/Data/Work/Freelans/'
+
+strDbName='file.db'
+
+con = sqlite3.connect(strDbName, check_same_thread=False)
+print("Fetching cursor")
+
+lstWords=['']
+
+debug=True
+
+strHTMLHeader="<HTML><TITLE>File Crawler</TITLE><BODY>These are the files in the database: <BR></BODY></HTML>"

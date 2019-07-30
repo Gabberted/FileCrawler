@@ -1,0 +1,65 @@
+<style>
+  #myTable{
+     font-family: 'helvetica neue',helvetica,arial,'lucida grande',sans-serif;
+     border-collapse: collapse;
+  }
+  #myTable td{
+     border: solid 1px #C9C9C9;
+     padding: 10px;
+     font-size: 12px;
+     text-align: center;
+  }
+  #myTable tr{
+     background-color: #EBEBEB;
+     color: #000000;
+  }
+  #myTable tr:hover{
+     background-color: #FFFFFF;
+     color: #000000;
+  }
+  #myTable th{
+     border: solid 1px #BFBFBF;
+     padding: 10px;
+     color: #000000;
+     background-color: #D4D4D4;
+     text-align: center;
+     font-size: 12px;
+  }
+
+.body {
+    font-family: 'Aleo';font-size: 22px;
+  }
+.loader {
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 50px;
+    background-color: #000000;
+}
+.MainInfo {
+    text-align: left;
+    color: blue;
+    width: 100%;
+    font-family: 'Aleo';font-size: 12px;
+  }
+.summery {
+    color: blue;
+    border: solid 1px #C9C9C9;
+    width: 10%;
+  }
+  .overallsum{
+    background-color: #FCF2CD;
+  }
+  .loader1{
+    text-align: left;
+    color: #FCF2CD;
+  }
+  .projectsummery{
+    color: #1999E3;
+  }
+  .SectionHeader{
+    text-align: left;
+    color: #FFFFFF;
+    font-size: 20px;
+    background-color: #3C4042;
+  }
+</style>

@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <title>FileCrawler V1.0</title>
+    <meta content="">
+    %STYLE%
+  </head>
+  <body>
+      <div class="loader"> Admin </div>
+      <hr>
+      <div class="SectionHeader">Database operations</div>
+    %FOOTER%
+  </body>
+</html>

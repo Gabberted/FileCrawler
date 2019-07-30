@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style>
+      #myTable{
+         font-family: 'helvetica neue',helvetica,arial,'lucida grande',sans-serif;
+         border-collapse: collapse;
+      }
+      #myTable td{
+         border: solid 1px #C9C9C9;
+         padding: 10px;
+         font-size: 12px;
+         text-align: left;
+      }
+      #myTable tr{
+         background-color: #EBEBEB;
+         color: #000000;
+         text-align: left;
+         width: = 150px
+      }
+      #myTable tr:hover{
+         background-color: #FFFFFF;
+         color: #000000;
+         text-align: left;
+      }
+      #myTable th{
+         border: solid 1px #BFBFBF;
+         padding: 10px;
+         color: #000000;
+         background-color: #D4D4D4;
+         text-align: left;
+         font-size: 12px;
+      }
+      .loader {
+
+        text-align: center;
+        color: red;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <table id="myTable" width="100%">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">FileName</th>
+                <th scope="col">FilePath</th>
+                <th scope="col">size</th>
+                <th scope="col">date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+              %tbl_cntnt%
+            </tr>
+        </tbody>
+    </table>
+  </body>
+</html>
