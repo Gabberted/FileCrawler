@@ -14,7 +14,7 @@ def crawlDir(rootdir):
 
                 print("==================  new file ==================  ")
                 strFilePath=dirs + "/" +  str(file)
-                print(str(strFilePath))
+                print("File Probe: " + str(strFilePath))
 
                 db.storeSingeFile(str(strFilePath))
                 #We need to check if the path is already stored

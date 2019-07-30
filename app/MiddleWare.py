@@ -3,24 +3,21 @@ import time
 import os
 
 def readHTMLFile(strFile):
+    strHTML=""
     try:
-        #strFile="index.html.cms"
         print("Here we need to read the file")
         print("Opening file: " + strFile)
         days_file = open(strFile,'r')
         strHTML = days_file.read()
-        #print(strHTML)
+        days_file.close()
 
-        #read the footer
-        #strFooterPath=os.path.dirname(__file__) + vars._FooterFile
-        #Footer_file = open(strFooterPath,'r')
-        #strFooterHTML = Footer_file.read()
-
-        #strHTML=strHTML.replace("%FOOTER%", strFooterHTML)
-        return strHTML
-        #return "Hallo world"
     except:
         print("Error reading file")
+        days_file.close()
+        #print(str(Error))
+    finally:
+
+        return strHTML
 
 def writeTxtFile():
     try:
@@ -58,10 +55,13 @@ def CreateTableContent(list):
 
 def getFileExtention(strFileName):
     try:
-        strSplit=strFileName.split(".")
-        #print("Extention found: " + str(strSplit[1]))
+        print("Entering getFileExtention with: " + str(strFileName))
+        strSplit=strFileName.split('.')
+        print(strSplit)
+        print("Extention found: " + str(strSplit[len(strSplit)-1]))
+        return strSplit[1]
     except:
-        print ("Error whil executing getFileExtention")
+        print ("Error while executing getFileExtention")
 
 def doStuff(strPath):
     strHTML= readHTMLFile(strPath)
@@ -77,6 +77,11 @@ def getStyleSheet():
     print("strStyleSheet: " + strStyleSheet)
     return readHTMLFile(strStyleSheet)
 
+def getCrawlBtn():
+        strStyleSheet=os.path.dirname(__file__).replace("app","") + vars._btnCrawlFolder
+        print("getCrawlBtn: " + strStyleSheet)
+        return readHTMLFile(strStyleSheet)
+
 
 def getFooterContent(strFooterPath):
     if not strFooterPath:
@@ -89,5 +94,14 @@ def getAllMakeUpDone():
     strFooterPath=os.path.dirname(__file__).replace("app","") + vars._FooterFile
     strFOOTERHTML= getFooterContent(strFooterPath)
     strStyleSheetHTML= getStyleSheet()
+    btnCrawlHTML= getCrawlBtn()
 
-    return strFOOTERHTML, strStyleSheetHTML
+    return strFOOTERHTML, strStyleSheetHTML, btnCrawlHTML
+
+def getTemplate(strPath):
+    strPath=os.path.dirname(__file__).replace("app","") + strPath
+    strFooterHTML, strStyleSheet, btnCrawlHTML =getAllMakeUpDone()
+    print("opening:" + str(strPath))
+    strHTML= readHTMLFile(strPath).replace("%FOOTER%",strFooterHTML).replace("%STYLE%",strStyleSheet).replace("%BTNCRAWL%",btnCrawlHTML)
+
+    return strHTML

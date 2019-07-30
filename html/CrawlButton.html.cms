@@ -1,0 +1,4 @@
+<form action="/crawl/">
+  First name: <input type="text" name="fldName"><br>
+  <input type="submit" value="Submit">
+</form>

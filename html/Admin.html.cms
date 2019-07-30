@@ -8,6 +8,11 @@
       <div class="loader"> Admin </div>
       <hr>
       <div class="SectionHeader">Database operations</div>
+      <ul>
+        <li><a href="/whipe">Dump db (destructive)</a></li>
+        <li><a href="/init">Init db</li>
+        <li><a href="/crawl">Crawl</a></li>
+      </ul>
     %FOOTER%
   </body>
 </html>

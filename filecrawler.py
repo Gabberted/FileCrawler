@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 import app.db as db
 import FrameWork.debug as debug
 import FrameWork.TimeFunctions as tm
@@ -27,24 +28,26 @@ def main():
     print("Generated FooterFile: " + strFooterPath)
 
     #print(strPath)
-    debug.debugPrint("Reading file")
-    strRet = mw.readHTMLFile(strPath).replace("%FOOTER%", str(mw.getFooterContent(strFooterPath)))
-    #mw.writeTxtFile()
+    strFooter, strStyle,btnCrawlHTML=mw.getAllMakeUpDone()
+    return mw.readHTMLFile(strPath).replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%BTNCRAWL%",str(btnCrawlHTML))
     return strRet
 
 @app.route("/admin")
 def admin():
     strPath=os.path.dirname(__file__) + vars._AdminFile
     debug.debugPrint("AdminFile: " + str(strPath))
-    strFooter, strStyle=mw.getAllMakeUpDone()
-    return mw.readHTMLFile(strPath).replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle))
+    strFooter, strStyle,btnCrawlHTML=mw.getAllMakeUpDone()
+    return mw.readHTMLFile(strPath).replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%BTNCRAWL%",str(btnCrawlHTML))
 
 
 @app.route("/crawl")
 def crawler():
-	retval= crawl.Crawl(vars.rootdir)
-	return retval[1]
-
+    retval= crawl.Crawl(vars.rootdir)
+    strPath=os.path.dirname(__file__) + vars._CrawlFile
+    debug.debugPrint("AdminFile: " + str(strPath))
+    strFooter, strStyle, btnCrawlHTML=mw.getAllMakeUpDone()
+    retval="Done"
+    return mw.readHTMLFile(strPath).replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%MESSAGE%", str(retval)).replace("%BTNCRAWL%",str(btnCrawlHTML))
 
 @app.route("/show")
 def showfiles():
@@ -58,7 +61,9 @@ def showfiles():
     print("Content: " + strContent)
     #tm.SleepSeconds(5)
 
-    strRet = mw.readHTMLFile(strPath).replace("%tbl_cntnt%",strContent).replace("%FOOTER%", str(mw.getFooterContent()))
+    strFooter, strStyle,btnCrawlHTML=mw.getAllMakeUpDone()
+    strRet = str(mw.readHTMLFile(strPath).replace("%tbl_cntnt%",strContent))
+    strRet = strRet.replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%BTNCRAWL%",str(btnCrawlHTML))
     retVal = strRet
 
     return retVal
@@ -85,7 +90,8 @@ def showInfo():
     strHTML=strHTML.replace("%BMP%",strBMP).replace("%JPG%",strJPG).replace("%PNG%",strpng).replace("%TIFF%",strTiff).replace("%DOC%",strDOC).replace("%DOCX%",strDOCX).replace("%ODT%",strODT).replace("%TXT%",strTXT)
     strHTML=strHTML.replace("%T_PY%",strPY).replace("%T_C%",strC).replace("%T_BAS%",strBAS).replace("%T_h%",strH)
     strHTML=strHTML.replace("%T_PY_L%",strPY_L).replace("%T_C_L%",strC_L).replace("%T_BAS_L%",strBAS_L).replace("%T_h_L%",strH_L).replace("%T_CPP_L%",strCPP_L).replace("%T_CPP%",strCPP)
-    strHTML=strHTML.replace("%FOOTER%",strFooterHTML)
+    strFooter, strStyle,btnCrawlHTML=mw.getAllMakeUpDone()
+    strHTML = strHTML.replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%BTNCRAWL%",str(btnCrawlHTML))
     return strHTML
 
 @app.route("/whipe")
@@ -93,7 +99,9 @@ def whipefiles():
     print("Clearing out database")
     strQuery="delete from FileNames"
     retVal= db.executeQuery(strQuery)
-    return "Data Cleared"
+
+    strPath=os.path.dirname(__file__) + vars._DoneFile
+    return mw.getTemplate(strPath).replace("%MESSAGE%", str(retVal))
 
 @app.route("/nothing")
 def donothing():
@@ -103,7 +111,11 @@ def donothing():
 @app.route("/init")
 def initsystem():
     strQuery="DROP TABLE FileNames;"
-    print("Dropping table")
+    print("Dropping table FileNames")
+    retVal= db.executeQuery(strQuery)
+
+    strQuery="DROP TABLE Extentions;"
+    print("Dropping table Extentions")
     retVal= db.executeQuery(strQuery)
     db.sql_table()
     return "Database Created"

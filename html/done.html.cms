@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>FileCrawler V1.0</title>
+    <meta content="">
+    <style>
+      .loader {
+        text-align: center;
+        color: red;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="loader">  %MESSAGE% </div>
+    %FOOTER%
+  </body>
+</html>

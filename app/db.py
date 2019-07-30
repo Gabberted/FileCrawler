@@ -19,6 +19,7 @@ def debugPrint(strText):
 
 def storeSingeFile(FileName):
     debugPrint("Entering storeSingleFile")
+    extList=[]
     try:
         with sqlite3.connect("file.db") as con2:
             cur = con2.cursor()
@@ -31,8 +32,10 @@ def storeSingeFile(FileName):
             debugPrint(FileName)
             debugPrint("Looking up file!")
             try:
-                boFileStored=False
+                #boFileStored=False
+                print("<<<<<<<<<<<<<< File Stored Evaluation >>>>>>>>>>>>>>")
                 boFileStored = FileAlreadyStored(FileName)
+                debugPrint("Filed stored status : " + str(boFileStored))
             except Error:
                 debugPrint("Error looking up Filestored")
                 debugPrint(str(Error))
@@ -48,9 +51,9 @@ def storeSingeFile(FileName):
                     debugPrint(Date)
                     strQuery="insert into FileNames(name, path, date, size)values('@filename','@filepath','@filedate','@n')"
                     FileName = returnFilePathToStore(str(FileName))
-                    strQuery=strQuery.replace('@filename',returnFilePathToStore(FileName))
+                    strQuery=strQuery.replace('@filepath',returnFilePathToStore(FileName))
                     FileName=FileName.split("/")
-                    strQuery=strQuery.replace('@filepath',FileName[len(FileName)-1])
+                    strQuery=strQuery.replace('@filename',FileName[len(FileName)-1])
 
                     strQuery=strQuery.replace('@filedate',str(Date))
                     strQuery=strQuery.replace('@n',str(Size))
@@ -60,6 +63,22 @@ def storeSingeFile(FileName):
                     curInject = con2.cursor()
                     curInject.execute(strQuery)
                     print("Insert File Query Executed")
+
+                    #now lets see if we need to update the extention db
+                    iLenght=len(FileName)-1
+                    print("FileName:" + str(FileName))
+                    print("Lenght found:" + str(iLenght))
+                    strFileName=FileName[iLenght];
+                    #strFileName=strFileName.split('.')[iLenght-1]
+                    print("Filename:" + str(strFileName))
+
+                    strExtention=mw.getFileExtention(str(strFileName))
+                    if not strExtention in extList:
+                        extList.append(str(strExtention))
+                        strQuery="insert into Extentions(Ext, count)values('@strExt','1')"
+                        strQuery=strQuery.replace("@strExt", str(strExtention))
+                        curInject.execute(strQuery)
+                        print("Insert Extention Executed")
                 else:
                     debugPrint("FileName not stored: " + str(FileName))
 
@@ -107,12 +126,21 @@ def StoreFileList(FileList):
 def sql_table():
     try:
          cursorObj = FetchCursor()
+
          strQuery="CREATE TABLE FileNames(id integer PRIMARY KEY AUTOINCREMENT, name text, path text, fullpath text, date text, size text)"
-         #strQuery="CREATE TABLE FileNames(id INTEGER PRIMARY KEY AUTOINCREMENT, name text)"
-         cursorObj.execute(strQuery)
-         print("Executing:  " + strQuery)
-         cursorObj.commit()
-         print("YOLO!")
+         try:
+             cursorObj.execute(strQuery)
+             print("Executing:  " + strQuery)
+         except:
+             print("Error during creation..db already there ?")
+
+         finally:
+             strQuery="CREATE TABLE Extentions(id integer PRIMARY KEY AUTOINCREMENT, Ext text, Count text)"
+             cursorObj.execute(strQuery)
+             print("Executing:  " + strQuery)
+
+             cursorObj.commit()
+             print("YOLO!")
     except Error:
         print(Error)
     finally:
@@ -126,6 +154,7 @@ def FetchCursor():
         con =sql_connection()
         cursorObj = con.cursor()
         print("Fetching cursor")
+        datetime.SleepSeconds(0.01)
     except Error:
         print("Error fetching cursor")
         print(Error)
@@ -179,12 +208,12 @@ def executeQuery(strQuery):
     except Error:
         print("Error Executing")
     finally:
-        # con.close()
+        con.close()
         return "Query Executed: " + strQuery
 
 
 def returnFilePathToStore(strFilePath):
-    strFileName = str(strFilePath).replace("[","").replace("'","").replace("]","").strip()
+    strFileName = str(strFilePath).replace("[","").replace("'","").replace("]","").replace("//","/").strip()
     debugPrint("FileName convertion from:")
     debugPrint(str(strFilePath))
     debugPrint("to")
@@ -203,8 +232,8 @@ def FileAlreadyStored(strFileName):
             cursorObj3 = con3.cursor()
             debugPrint("Cursor fetched")
             strFileName1 = returnFilePathToStore(str(strFileName[0]))
-            #strQuery2="select count(*) from FileNames where name='" + str(strFileName1) + "'"
-            strQuery="select count(*) from Filenames"
+            strQuery2="select count(*) from FileNames where name='" + str(strFileName1) + "'"
+            #strQuery="select count(*) from Filenames"
             debugPrint("Query build")
             try:
                 debugPrint("Query: " + str(strQuery2))
@@ -389,7 +418,9 @@ def getALlStoredFileExtentions():
         print(row)
         for cell in row:
             print(cell)
-            strExt=mw.getFileExtention(cell)
+            iLenght=[len(cell)-1]
+            print(str(iLenght))
+            strExt=mw.getFileExtention(cell[len(cell)-1])
             if not cell in list:
                 list.append(str(cell))
     return list
