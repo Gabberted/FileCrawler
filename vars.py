@@ -5,7 +5,7 @@
 #rootdir ='/home/rakaut/smb:/LGNAS/Private/'
 #rootdir ='/media/rakaut/Seagate/Data/Work/Freelans/'
 #rootdir ='/mnt/owncloud/'
-rootdir ='/mnt/owncloud/MultiMedia/Pictures/opslaan/'
+rootdir ='/mnt/owncloud/MultiMedia/'
 strDbName='file.db'
 
 #cursorObj = con.cursor()

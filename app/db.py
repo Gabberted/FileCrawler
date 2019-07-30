@@ -224,15 +224,17 @@ def returnFilePathToStore(strFilePath):
 
 
 def FileAlreadyStored(strFileName):
-    strCount="0"
+    strCount="False"
     try:
-        debugPrint("Entering FileAlreadyStored")
+        debugPrint("Entering FileAlreadyStored with " + str(strFileName))
         #cursorObj2 = FetchCursor()
+        strFileName=strFileName.split("/")[len(strFileName.split("/"))-1]
+        debugPrint("strFileName " + str(strFileName))
         with sqlite3.connect("file.db") as con3:
             cursorObj3 = con3.cursor()
             debugPrint("Cursor fetched")
             strFileName1 = returnFilePathToStore(str(strFileName[0]))
-            strQuery2="select count(*) from FileNames where name='" + str(strFileName1) + "'"
+            strQuery2="select count(*) from FileNames where name='" + str(strFileName) + "'"
             #strQuery="select count(*) from Filenames"
             debugPrint("Query build")
             try:
@@ -245,12 +247,16 @@ def FileAlreadyStored(strFileName):
                         print(str(Error))
 
                 print("Executing:  " + strQuery2)
-                strCount = cursorObj3.fetchone()[0]
+                strCount = str(cursorObj3.fetchone()[0])
                 print("Count " + str(strCount))
+                if strCount != "0":
+                    return True
+                else:
+                    return FileAlreadyStored
             except sqlite3.Error as error:
                 print("Error in FileAlreadyStored")
                 print(str(error))
-                strCount="0"
+                strCount=False
             except Error:
                 print("Error Executing FileAlreadyStored")
                 print(sqlite3.Error)
