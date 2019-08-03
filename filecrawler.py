@@ -1,6 +1,9 @@
 from flask import Flask
 from flask import request
 import app.db as db
+import app.admin_functions as ad
+import app.extention_functions as ext
+import app.pol_functions as pol
 import FrameWork.debug as debug
 import FrameWork.TimeFunctions as tm
 import app.MiddleWare as mw
@@ -20,54 +23,36 @@ strFooterPath=os.path.dirname(__file__) + vars._FooterFile
 #routing
 @app.route("/")
 def main():
-    #strPath=os.path.dirname(__file__) + vars._indexFile
-    strPath=os.path.dirname(__file__) + vars._WelcomeFile
-    debug.debugPrint("PATH FOUND: " + strPath)
-
-    #strFooterPath=os.path.dirname(__file__) + vars._FooterFile
-    print("Generated FooterFile: " + strFooterPath)
-
-    #print(strPath)
-    strFooter, strStyle,btnCrawlHTML=mw.getAllMakeUpDone()
-    return mw.readHTMLFile(strPath).replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%BTNCRAWL%",str(btnCrawlHTML))
-    return strRet
+    return ad.main()
 
 @app.route("/admin")
 def admin():
-    strPath=os.path.dirname(__file__) + vars._AdminFile
-    debug.debugPrint("AdminFile: " + str(strPath))
-    strFooter, strStyle,btnCrawlHTML=mw.getAllMakeUpDone()
-    return mw.readHTMLFile(strPath).replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%BTNCRAWL%",str(btnCrawlHTML))
+    return ad.admin()
 
 
 @app.route("/crawl")
 def crawler():
-    retval= crawl.Crawl(vars.rootdir)
-    strPath=os.path.dirname(__file__) + vars._CrawlFile
-    debug.debugPrint("AdminFile: " + str(strPath))
-    strFooter, strStyle, btnCrawlHTML=mw.getAllMakeUpDone()
-    retval="Done"
-    return mw.readHTMLFile(strPath).replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%MESSAGE%", str(retval)).replace("%BTNCRAWL%",str(btnCrawlHTML))
+    return ad.crawler()
 
 @app.route("/show")
 def showfiles():
-    print("showing")
-    retVal= db.ShowAllFiles()
-    #retVal=retVal.replace("@","<br>")
-    #retVal= vars.strHTMLHeader + retVal
-    #debug.debugPrint(retVal)
-    strPath=os.path.dirname(__file__) + vars._indexFile
-    strContent=mw.CreateTableContent(retVal)
-    print("Content: " + strContent)
-    #tm.SleepSeconds(5)
+    return ad.showfiles()
 
-    strFooter, strStyle,btnCrawlHTML=mw.getAllMakeUpDone()
-    strRet = str(mw.readHTMLFile(strPath).replace("%tbl_cntnt%",strContent))
-    strRet = strRet.replace("%FOOTER%", str(strFooter)).replace("%STYLE%", str(strStyle)).replace("%BTNCRAWL%",str(btnCrawlHTML))
-    retVal = strRet
+@app.route("/genExtentions")
+def genExtentions():
+    return ext.genExtentions()
 
-    return retVal
+@app.route("/showExtentions")
+def showExtentions():
+    return ext.showExtentions()
 
+@app.route("/clearExtentions")
+def clearExtentions():
+    return ext.clearExtentions()
+
+@app.route("/cleanExtentions")
+def cleanExtentions():
+    return ext.cleanExtentions()
 
 @app.route("/info")
 def showInfo():
@@ -96,12 +81,7 @@ def showInfo():
 
 @app.route("/whipe")
 def whipefiles():
-    print("Clearing out database")
-    strQuery="delete from FileNames"
-    retVal= db.executeQuery(strQuery)
-
-    strPath=os.path.dirname(__file__) + vars._DoneFile
-    return mw.getTemplate(strPath).replace("%MESSAGE%", str(retVal))
+    return ad.whipefiles()
 
 @app.route("/nothing")
 def donothing():
@@ -110,22 +90,26 @@ def donothing():
 
 @app.route("/init")
 def initsystem():
-    strQuery="DROP TABLE FileNames;"
-    print("Dropping table FileNames")
-    retVal= db.executeQuery(strQuery)
-
-    strQuery="DROP TABLE Extentions;"
-    print("Dropping table Extentions")
-    retVal= db.executeQuery(strQuery)
-    db.sql_table()
-    return "Database Created"
+    return ad.initsystem()
 
 @app.route('/test1')
 def dostuff():
     debug.debugPrint("Testing")
-    strFooterPath=os.path.dirname(__file__) + vars._FooterFile
-    print("Generated FooterFile: " + strFooterPath)
-    return mw.doStuff(strFooterPath)
+    #strFooterPath=os.path.dirname(__file__) + vars._TestFile
+    #print("Generated Test1: " + strFooterPath)
+    #return mw.doStuff(strFooterPath)
+    #strQuery="insert into Extentions(Ext, count)values('" + str(strExt) + "','1')"
+    strQuery="insert into Extentions(Ext, count)values('gif','1')"
+
+    strRet= db.executeQuery(strQuery)
+
+    return str(strRet)
+
+@app.route("/LendingRates")
+def LendingRates():
+    return pol.LendingRates()
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)

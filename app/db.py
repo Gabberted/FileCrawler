@@ -196,20 +196,40 @@ def ShowAllFiles():
 
 def executeQuery(strQuery):
     try:
-        print("Preparing to execute query")
+        print("Preparing to execute query (new)")
+        with sqlite3.connect(vars.strDbName) as con3:
+            cursorObj3 = con3.cursor()
+            print("Executing:  " + strQuery)
+            cursorObj3.execute(strQuery2)
+            print("Query executed")
+            print("Commiting..no way back now")
+            #con3.commit()
+            print("YOLO!")
+    except Error:
+        #cursorObj.commit()
+        print("Error Executing")
+    finally:
+        #con.close()
+        return "Query Executed: " + strQuery
+
+def executeQueryReturnRows(strQuery):
+    try:
+        debugPrint("Preparing to execute query")
         cursorObj = FetchCursor()
-        print("Cursor Fetched")
+        debugPrint("Cursor Fetched")
         cursorObj.execute(strQuery)
-        print("Query executed")
-        print("Executing:  " + strQuery)
-        print("Commiting..no way back now")
+        debugPrint("Query executed")
+
+        debugPrint("Executing:  " + strQuery)
+        rows = cursorObj.fetchall()
+        debugPrint("Fetching rows")
         con.commit()
-        print("YOLO!")
+        debugPrint("YOLO!")
     except Error:
         print("Error Executing")
     finally:
-        con.close()
-        return "Query Executed: " + strQuery
+        #con.close()
+        return rows
 
 
 def returnFilePathToStore(strFilePath):
@@ -221,6 +241,55 @@ def returnFilePathToStore(strFilePath):
 
     return strFileName
 
+def ItemAlreadyInDb(strItem, strTable, strColumn):
+    strFileName=strItem
+    debugPrint("Entering ItemAlreadyInDb with " + str(strFileName) + " " + str(strTable) + str(strColumn))
+    strCount="False"
+    try:
+        #cursorObj2 = FetchCursor()
+        debugPrint("strFileName " + str(strFileName))
+        with sqlite3.connect(vars.strDbName) as con3:
+            cursorObj3 = con3.cursor()
+            debugPrint("Cursor fetched")
+            strQuery2="select count(*) from " + strTable + " where " + strColumn + "='" + str(strFileName) + "'"
+            #strQuery="select count(*) from Filenames"
+            debugPrint("Query build")
+            try:
+                debugPrint("Query: " + str(strQuery2))
+                #tm.SleepSeconds(0.5)
+                try:
+                    cursorObj3.execute(strQuery2)
+                except Error:
+                        print("Error executing cursorobj3")
+                        print(str(Error))
+
+                print("Executing:  " + strQuery2)
+                strCount = str(cursorObj3.fetchone()[0])
+                print("Count " + str(strCount))
+                if strCount != "0":
+                    return True
+                else:
+                    return FileAlreadyStored
+            except sqlite3.Error as error:
+                print("Error in FileAlreadyStored")
+                print(str(error))
+                strCount=False
+            except Error:
+                print("Error Executing FileAlreadyStored")
+                print(sqlite3.Error)
+                strCount="0"
+    except Error:
+        print("Error Executing FileAlreadyStored")
+        print(sqlite3.Error)
+        strCount="0"
+        if con3:
+            con3.close()
+    finally:
+        #debugPrint("Finilizing FileAlreadyStored with " + str(strCount))
+        if strCount=="0":
+            return False
+        else:
+            return True
 
 
 def FileAlreadyStored(strFileName):
@@ -408,6 +477,16 @@ def getOverAllSummery():
         strWhere = " path like '" + chr(iStartChar) +  "%'"
         strHTML= strHTML + GetSummery(strWhere, "overAllSummery")
     return strHTML
+
+def returnRows(strQuery):
+    print("returnRows")
+    cursorObj = FetchCursor()
+    #what do we want to see:
+        #the db used
+        #the number of files StoreFileList
+    cursorObj.execute(strQuery)
+    print("Executing:  " + strQuery)
+    return cursorObj.fetchall()
 
 def getALlStoredFileExtentions():
     print("showing Picture information")

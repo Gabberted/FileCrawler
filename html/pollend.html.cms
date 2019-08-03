@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>FileCrawler V1.0</title>
+    <meta content="">
+    %STYLE%
+  </head>
+  <body>
+      <div class="loader"> Poloniex </div>
+      <hr>
+      <div class="SectionHeader">Lending Market</div>
+      <table border=1>
+        <tr>
+          <td>
+            <ul>
+              <li>
+                %LOWEST_LEND%
+              </li>
+            </ul>
+        </td>
+        <td>
+          <ul>
+            <li>
+              Lowest
+            </li>
+          </ul>
+      </td>
+      <td>
+        <ul>
+            <li><a href="/LendingRates">Lending Rates</a></li>
+        </ul>
+    </td>
+      </tr>
+    </table>
+    %FOOTER%
+  </body>
+</html>

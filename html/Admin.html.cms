@@ -8,11 +8,30 @@
       <div class="loader"> Admin </div>
       <hr>
       <div class="SectionHeader">Database operations</div>
-      <ul>
-        <li><a href="/whipe">Dump db (destructive)</a></li>
-        <li><a href="/init">Init db</li>
-        <li><a href="/crawl">Crawl</a></li>
-      </ul>
+      <table border=1>
+        <tr>
+          <td>
+            <ul>
+              <li><a href="/whipe">Dump db (destructive)</a></li>
+              <li><a href="/init">Init db</li>
+              <li><a href="/crawl">Crawl</a></li>
+            </ul>
+        </td>
+        <td>
+          <ul>
+          <li><a href="/cleanExtentions">Clean Extentions</a></li>
+            <li><a href="/clearExtentions">Clear Extention DB</li>
+            <li><a href="/showExtentions">Show all Extentions stored</a></li>
+            <li><a href="/genExtentions">Generate Extentions from FileNames</a></li>
+          </ul>
+      </td>
+      <td>
+        <ul>
+            <li><a href="/LendingRates">Lending Rates</a></li>
+        </ul>
+    </td>
+      </tr>
+    </table>
     %FOOTER%
   </body>
 </html>
